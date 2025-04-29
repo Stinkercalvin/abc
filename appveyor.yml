@@ -1,0 +1,16 @@
+version: 1.0.{build}
+
+image: Visual Studio 2019
+
+environment:
+  NODE_ENV: production
+  ELECTRON_VERSION: 28.1.0  # Match your Electron version
+
+install:
+  - npm install
+
+build:
+  - npm run dist  # This assumes you have "dist" script in package.json for packaging the app
+
+artifacts:
+  - path: dist\*  # Artifact path for packaged app
