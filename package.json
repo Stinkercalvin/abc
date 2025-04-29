@@ -1,4 +1,24 @@
-"scripts": {
-  "start": "electron .",
-  "dist": "electron-builder"
+{
+  "name": "click-speed-test",
+  "version": "1.0.0",
+  "description": "Simple click speed test desktop app",
+  "main": "main.js", 
+  "scripts": {
+    "start": "electron .", 
+    "dist": "electron-builder"
+  },
+  "dependencies": {
+    "electron": "^28.1.0"  // Match your Electron version
+  },
+  "devDependencies": {
+    "electron-builder": "^23.0.0"  // Used for packaging the app into an .exe file
+  },
+  "build": {
+    "appId": "com.example.click-speed-test",  // Unique ID for your app
+    "productName": "Click Speed Test",  // Name of the app
+    "win": {
+      "target": "nsis",  // The installer format (NSIS is commonly used for Windows)
+      "icon": "path_to_icon.ico"  // Path to the app icon (optional, but recommended)
+    }
+  }
 }
