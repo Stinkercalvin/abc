@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Click Speed Test</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f2f5;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    .container {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      text-align: center;
+      max-width: 400px;
+      width: 90%;
+    }
+    h1 {
+      margin-bottom: 1rem;
+    }
+    .controls {
+      margin-bottom: 1rem;
+    }
+    .controls select,
+    .controls button {
+      margin: 0.5rem 0.25rem;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+    }
+    .test-area p {
+      font-size: 1.2rem;
+      margin: 0.5rem 0;
+    }
+    #clickBtn {
+      margin-top: 1rem;
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      background: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    #clickBtn:disabled {
+      background: #aaa;
+      cursor: not-allowed;
+    }
+    .results {
+      margin-top: 1.5rem;
+      border-top: 1px solid #ddd;
+      padding-top: 1rem;
+    }
+    .hidden {
+      display: none;
+    }
+    @media (max-width: 480px) {
+      #clickBtn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Click Speed Test</h1>
+    <div class="controls">
+      <label for="duration">Select Time:</label>
+      <select id="duration">
+        <option value="5">5s</option>
+        <option value="10">10s</option>
+        <option value="15">15s</option>
+      </select>
+      <button id="resetBtn">Reset</button>
+    </div>
+    <div class="test-area">
+      <p>Time Left: <span id="timer">0</span>s</p>
+      <p>Clicks: <span id="clickCount">0</span></p>
+      <button id="clickBtn">Click Me!</button>
+    </div>
+    <div id="results" class="results hidden">
+      <h2>Results</h2>
+      <p>Total Clicks: <span id="totalClicks">0</span></p>
+      <p>Time: <span id="finalTime">0</span>s</p>
+      <p>CPS: <span id="cps">0</span></p>
+    </div>
+  </div>
+  <script>
+    let clickCount = 0;
+    let countdown;
+    let duration = 5;
+    let timeLeft = duration;
+    let timerRunning = false;
+
+    const durationSelect = document.getElementById('duration');
+    const resetBtn = document.getElementById('resetBtn');
+    const clickBtn = document.getElementById('clickBtn');
+    const timerDisplay = document.getElementById('timer');
+    const clickDisplay = document.getElementById('clickCount');
+    const resultSection = document.getElementById('results');
+    const totalClicks = document.getElementById('totalClicks');
+    const finalTime = document.getElementById('finalTime');
+    const cpsDisplay = document.getElementById('cps');
+
+    durationSelect.addEventListener('change', () => {
+      duration = parseInt(durationSelect.value);
+      timeLeft = duration;
+    });
+
+    clickBtn.addEventListener('click', () => {
+      if (!timerRunning) {
+        startTimer();
+        timerRunning = true;
+      }
+      clickCount++;
+      clickDisplay.textContent = clickCount;
+    });
+
+    function startTimer() {
+      clickCount = 0;
+      timeLeft = duration;
+      timerDisplay.textContent = timeLeft;
+      clickDisplay.textContent = clickCount;
+      resultSection.classList.add('hidden');
+      countdown = setInterval(() => {
+        timeLeft--;
+        timerDisplay.textContent = timeLeft;
+        if (timeLeft <= 0) {
+          clearInterval(countdown);
+          clickBtn.disabled = true;
+          showResults();
+        }
+      }, 1000);
+    }
+
+    resetBtn.addEventListener('click', () => {
+      clearInterval(countdown);
+      clickCount = 0;
+      timeLeft = duration;
+      timerRunning = false;
+      timerDisplay.textContent = 0;
+      clickDisplay.textContent = 0;
+      clickBtn.disabled = false;
+      resultSection.classList.add('hidden');
+    });
+
+    function showResults() {
+      totalClicks.textContent = clickCount;
+      finalTime.textContent = duration;
+      const cps = (clickCount / duration).toFixed(2);
+      cpsDisplay.textContent = cps;
+      resultSection.classList.remove('hidden');
+    }
+  </script>
+</body>
+</html>

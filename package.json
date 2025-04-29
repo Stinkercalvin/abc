@@ -1,0 +1,12 @@
+{
+  "name": "click-speed-test",
+  "version": "1.0.0",
+  "description": "Simple click speed test desktop app",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "devDependencies": {
+    "electron": "^28.1.0"
+  }
+}
